@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 
 // Also install this npm i --save-dev @types/react-lottie
@@ -65,12 +65,20 @@ export const BentoGridItem = ({
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const [canCopy, setCanCopy] = useState(false);
+
+  useEffect(() => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      setCanCopy(true);
+    }
+  }, []);
 
   const handleCopy = () => {
-    const text = "hsu@jsmastery.pro";
-    navigator.clipboard.writeText(text);
+    if (!canCopy) return;
+    navigator.clipboard.writeText("hsu@jsmastery.pro");
     setCopied(true);
   };
+
 
   return (
     <div
